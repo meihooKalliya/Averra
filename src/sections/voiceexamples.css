@@ -1,0 +1,76 @@
+:root {
+  --accent-blue: #60a5fa;
+  --accent-purple: #818cf8;
+  --text-secondary: #a1a1aa;
+}
+
+.proof-container {
+  padding: 60px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-header { text-align: center; margin-bottom: 40px; }
+.sub-header {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--accent-blue);
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+.gradient-text {
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.proof-headline { font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 800; color: white; margin-bottom: 20px; line-height: 1.1; }
+.proof-subtext { font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; perspective: 1000px; margin-bottom: 60px; width: 100%; }
+
+.persona-card { position: relative; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 30px; text-align: left; transition: all 0.4s ease; backdrop-filter: blur(10px); overflow: hidden; transform: translateY(0) scale(0.98); }
+.persona-card:hover { transform: translateY(-10px) scale(1); border-color: rgba(255, 255, 255, 0.2); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+.persona-card.featured { background: rgba(255, 255, 255, 0.05); border-color: rgba(129, 140, 248, 0.3); transform: scale(1.02); z-index: 5; }
+.persona-card.featured:hover { transform: scale(1.05) translateY(-10px); box-shadow: 0 30px 60px rgba(129, 140, 248, 0.15); }
+
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.icon-box { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.1); }
+.blue-icon { color: var(--accent-blue); }
+.purple-icon { color: var(--accent-purple); background: rgba(129, 140, 248, 0.2); }
+.orange-icon { color: #fbbf24; }
+
+.badge { font-size: 0.7rem; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: rgba(255,255,255,0.1); color: var(--text-secondary); letter-spacing: 0.5px; }
+.purple-badge { background: rgba(129, 140, 248, 0.2); color: var(--accent-purple); }
+
+.card-title { font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 10px; }
+.card-desc { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.5; min-height: 40px; }
+
+.card-stats { display: flex; gap: 20px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 20px; }
+.stat { display: flex; flex-direction: column; }
+.stat .label { font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 4px; text-transform: uppercase; }
+.stat .value { font-size: 1rem; font-weight: 700; color: white; font-family: monospace; }
+.blue-text { color: var(--accent-blue); }
+.purple-text { color: var(--accent-purple); }
+.orange-text { color: #fbbf24; }
+
+.card-action { margin-top: auto; }
+.play-btn { font-size: 0.85rem; font-weight: 600; color: white; cursor: pointer; transition: color 0.2s; display: flex; align-items: center; gap: 6px; }
+.play-btn:hover { color: var(--accent-blue); }
+
+.card-glow { position: absolute; top: 0; left: 0; right: 0; height: 150px; opacity: 0.15; filter: blur(40px); pointer-events: none; transition: opacity 0.4s; }
+.card-glow.blue { background: var(--accent-blue); }
+.card-glow.purple { background: var(--accent-purple); }
+.card-glow.orange { background: #fbbf24; }
+.persona-card:hover .card-glow { opacity: 0.3; }
+
+.bottom-cta-container { margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+.large-btn { padding: 16px 40px; font-size: 1rem; }
+.disclaimer { font-size: 0.85rem; color: var(--text-secondary); opacity: 0.7; }
+
+@media (max-width: 768px) {
+  .cards-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto 40px auto; }
+  .persona-card.featured { transform: none; }
+  .persona-card.featured:hover { transform: translateY(-5px); }
+}

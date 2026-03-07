@@ -1,0 +1,2927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Coldcaller | Autonomous Lead Generation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS Variables & Reset --- */
+        :root {
+            --bg-space: #080a15;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --accent-blue: #38bdf8;
+            --accent-purple: #818cf8;
+            --glow-shadow: rgba(56, 189, 248, 0.4);
+            --font-inter: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-inter);
+            background-color: var(--bg-space);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            padding-top: 80px; /* Offset for fixed header */
+        }
+
+        /* --- Global Styles --- */
+        a { text-decoration: none; }
+        
+        /* Gradient Text Utility */
+        .text-gradient {
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* --- 1. Fixed Header --- */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            z-index: 100;
+            background: rgba(8, 10, 21, 0.6);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            letter-spacing: -0.02em;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-item {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item:hover {
+            color: var(--text-primary);
+        }
+
+        /* --- Primary CTA Button Style --- */
+        .btn-primary {
+            padding: 12px 28px;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: white;
+            border: none;
+            cursor: pointer;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            box-shadow: 0 4px 20px var(--glow-shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(56, 189, 248, 0.6);
+        }
+
+        /* --- 2. Hero Section (Volumetric Background) --- */
+        .hero {
+            position: relative;
+            min-height: calc(100vh - 80px);
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            overflow: hidden;
+            /* Ensure background is dark for the mix-blend-mode to work */
+            background-color: var(--bg-space); 
+        }
+
+        /* NEW: Gradient Shape Container */
+        .gradient-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0; /* Behind content */
+            pointer-events: none;
+        }
+
+        /* Shared Shape Styles */
+        .shape {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 100vw; /* Spans full width */
+            mix-blend-mode: screen; /* Key for the "light beam" effect */
+        }
+
+        /* Layer 3: Outer (Tallest) */
+        .layer-outer {
+            height: 650px;
+            background-color: #2e008b;
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        /* Layer 2: Middle */
+        .layer-mid {
+            height: 288px;
+            background-color: #7a5af5;
+            opacity: 0.8;
+            z-index: 2;
+        }
+
+        /* Layer 1: Inner (Brightest) */
+        .layer-inner {
+            height: 173px;
+            background-color: #e0d9fe;
+            opacity: 1;
+            z-index: 3;
+        }
+
+        /* Global Blur Overlay */
+        .blur-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            z-index: 4;
+        }
+
+        /* Ensure content sits on top */
+        .hero-content {
+            position: relative;
+            z-index: 10; /* Above the blur overlay */
+            /* ... existing hero-content styles ... */
+        }
+
+        /* --- 4. Interactive Demo Input --- */
+        .demo-wrapper {
+            position: relative;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 580px;
+            margin: 0 auto 32px auto;
+            backdrop-filter: blur(10px);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .demo-wrapper:focus-within {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+        }
+
+        .demo-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 0 20px;
+            font-family: var(--font-inter);
+            font-size: 1rem;
+            color: white;
+            outline: none;
+        }
+
+        .demo-input::placeholder {
+            color: rgba(156, 163, 175, 0.5);
+        }
+
+        /* --- 5. Social Proof --- */
+        .social-proof {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 99px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.85rem;
+            color: #e5e7eb;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+        
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #10b981;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* --- Simulation Overlay (Visual Feedback) --- */
+        .simulation-overlay {
+            position: absolute;
+            top: 120%; /* Start hidden below */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 500px;
+            background: #0f111a;
+            border: 1px solid var(--accent-blue);
+            border-radius: 12px;
+            padding: 20px;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        .simulation-overlay.active {
+            top: 110%; /* Move up slightly but stay below input */
+            opacity: 1;
+        }
+
+        .sim-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+            padding-bottom: 8px;
+        }
+
+        .sim-content {
+            font-size: 0.9rem;
+            color: #d1d5db;
+            text-align: left;
+            font-family: 'Courier New', Courier, monospace; /* Code/Terminal feel */
+            line-height: 1.5;
+        }
+        
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Hide nav on small screens */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.5rem; }
+            .demo-wrapper { flex-direction: column; padding: 16px; gap: 16px; border-radius: 24px; }
+            .demo-input { width: 100%; padding: 0; text-align: center; }
+            .btn-primary { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="#" class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="url(#paint0_linear)" stroke-width="2"/>
+                <path d="M12 6V18M6 12H18" stroke="url(#paint1_linear)" stroke-width="2" stroke-linecap="round"/>
+                <defs>
+                    <linearGradient id="paint0_linear" x1="2" y1="12" x2="22" y2="12" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#38BDF8"/>
+                        <stop offset="1" stop-color="#818CF8"/>
+                    </linearGradient>
+                    <linearGradient id="paint1_linear" x1="6" y1="12" x2="18" y2="12" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#38BDF8"/>
+                        <stop offset="1" stop-color="#818CF8"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+            AICaller
+        </a>
+
+        <nav class="nav-links">
+            <a href="#overview" class="nav-item">Overview</a>
+            <a href="pages/FeaturesPage.jsx" class="nav-item">Features</a>
+            <a href="#pricing" class="nav-item">Pricing</a>
+        </nav>
+
+        <button class="btn-primary">Launch Free Trial</button>
+    </header>
+
+    <section class="hero">
+        <!-- NEW GRADIENT BACKGROUND -->
+        <div class="gradient-container">
+            <div class="shape layer-outer"></div>
+            <div class="shape layer-mid"></div>
+            <div class="shape layer-inner"></div>
+            <div class="blur-overlay"></div>
+        </div>
+
+        <script>
+            function updateGradientShapes() { 
+                const width = window.innerWidth; 
+                const midX = width / 2; 
+
+                function createHourglassPath(boxHeight, centerThickness) { 
+                    const halfHeight = boxHeight / 2; 
+                    const halfWaist = centerThickness / 2; 
+                    
+                    const topControlY = 2 * (halfHeight - halfWaist); 
+                    const bottomControlY = 2 * (halfHeight + halfWaist) - boxHeight; 
+
+                    return `path("M 0 0 Q ${midX} ${topControlY} ${width} 0 L ${width} ${boxHeight} Q ${midX} ${bottomControlY} 0 ${boxHeight} Z")`; 
+                } 
+
+                // 1. Outer Layer 
+                const outer = document.querySelector('.layer-outer'); 
+                if(outer) outer.style.clipPath = createHourglassPath(650, 40); 
+
+                // 2. Middle Layer 
+                const mid = document.querySelector('.layer-mid'); 
+                if(mid) mid.style.clipPath = createHourglassPath(288, 15); 
+
+                // 3. Inner Layer 
+                const inner = document.querySelector('.layer-inner'); 
+                if(inner) inner.style.clipPath = createHourglassPath(173, 3); 
+            } 
+            
+            // Initialize and Listen for Resize 
+            window.addEventListener('resize', updateGradientShapes); 
+            // Call immediately to set initial shapes 
+            updateGradientShapes();
+        </script>
+
+        <!-- Existing Stars (Optional, can keep or remove) -->
+        <div class="star"></div>
+        <!-- ... other stars ... -->
+
+        <div class="hero-content">
+            <h1>Build and Launch AI Phone Calls</h1>
+            <p class="hero-subtitle">Design voice experiences, generate dynamic scripts, and deploy calls in minutes — no complex setup required.</p>
+            <div class="hero-actions">
+                <a href="#trial" class="btn-primary large-btn">Launch Free Trial</a>
+                <a href="/features" class="btn-secondary">See Features</a>
+                <a href="/testimonials" class="btn-secondary">See Testimonials</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Interactive Demo Logic
+        const simulateBtn = document.getElementById('simulateBtn');
+        const simOverlay = document.getElementById('simOverlay');
+        const simText = document.getElementById('simText');
+        const promptInput = document.getElementById('promptInput');
+
+        simulateBtn.addEventListener('click', () => {
+            // Visual feedback on button
+            const originalText = simulateBtn.innerHTML;
+            simulateBtn.innerText = "Connecting...";
+            simulateBtn.style.opacity = "0.8";
+            
+            // Show overlay
+            simOverlay.classList.add('active');
+            simText.innerHTML = '<span class="typing-cursor">Initializing AI Agent...</span>';
+
+            // Simulate a transcript generation
+            setTimeout(() => {
+                typeWriterEffect();
+            }, 800);
+
+            function typeWriterEffect() {
+                const fullText = `<strong>AI:</strong> "Hello! I noticed your team is expanding. Are you looking for design automation tools?"<br><br><strong>Lead:</strong> "Actually, yes. How does it work?"<br><br><strong>AI:</strong> "It's seamless. I can schedule a demo for Tuesday?"`;
+                simText.innerHTML = fullText;
+                simulateBtn.innerText = "Call Simulated âœ“";
+                
+                // Reset after a few seconds for re-use
+                setTimeout(() => {
+                    simulateBtn.innerHTML = originalText;
+                    simulateBtn.style.opacity = "1";
+                    // Optional: Hide overlay or keep it as proof
+                    // simOverlay.classList.remove('active'); 
+                }, 4000);
+            }
+        });
+
+        // Allow 'Enter' key to trigger simulation
+        promptInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                simulateBtn.click();
+            }
+        });
+</script>
+
+    <!-- Proof Section: key capabilities cards -->
+    <section class="proof-section">
+        
+        <div class="ambient-light"></div>
+
+        <div class="proof-container">
+            
+            <div class="section-header">
+                <span class="sub-header">KEY CAPABILITIES</span>
+                <h2 class="proof-headline">
+                    The first AI that truly <span class="gradient-text">sounds human.</span>
+                </h2>
+                <p class="proof-subtext">
+                    Switch between specialized agents instantly. From high-energy sales to empathetic support, our models adapt to your goal.
+                </p>
+            </div>
+
+            <div class="cards-grid">
+                
+                <div class="persona-card">
+                    <div class="card-glow blue"></div>
+                    <div class="card-header">
+                        <div class="icon-box blue-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                        </div>
+                        <span class="badge">HIGH CONVERSION</span>
+                    </div>
+                    <h3 class="card-title">The Closer</h3>
+                    <p class="card-desc">Aggressive but polite. optimizing for appointment setting and overcoming initial objections.</p>
+                    
+                    <div class="card-stats">
+                        <div class="stat">
+                            <span class="label">Conv. Rate</span>
+                            <span class="value blue-text">18.4%</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Avg. Time</span>
+                            <span class="value">1m 45s</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card-action">
+                        <span class="play-btn">â–¶ Listen to Sample</span>
+                    </div>
+                </div>
+
+                <div class="persona-card featured">
+                    <div class="card-glow purple"></div>
+                    <div class="card-header">
+                        <div class="icon-box purple-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                        </div>
+                        <span class="badge purple-badge">TOP RATED</span>
+                    </div>
+                    <h3 class="card-title">The Empath</h3>
+                    <p class="card-desc">Warm, patient, and understanding. Perfect for customer retention, surveys, and feedback.</p>
+                    
+                    <div class="card-stats">
+                        <div class="stat">
+                            <span class="label">Sentiment</span>
+                            <span class="value purple-text">9.8/10</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Retention</span>
+                            <span class="value">High</span>
+                        </div>
+                    </div>
+
+                    <div class="card-action">
+                        <span class="play-btn">â–¶ Listen to Sample</span>
+                    </div>
+                </div>
+
+                <div class="persona-card">
+                    <div class="card-glow orange"></div>
+                    <div class="card-header">
+                        <div class="icon-box orange-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                        </div>
+                        <span class="badge">BETA</span>
+                    </div>
+                    <h3 class="card-title">The Negotiator</h3>
+                    <p class="card-desc">Handles complex pricing discussions and contract terms using logic-based rebuttal paths.</p>
+                    
+                    <div class="card-stats">
+                        <div class="stat">
+                            <span class="label">Logic Score</span>
+                            <span class="value orange-text">99%</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Depth</span>
+                            <span class="value">Lvl 4</span>
+                        </div>
+                    </div>
+
+                    <div class="card-action">
+                        <span class="play-btn">â–¶ Listen to Sample</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="bottom-cta-container">
+                <button class="btn-primary large-btn">Start Your Campaign &rarr;</button>
+                <p class="disclaimer">No credit card required for first 100 calls.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <style>
+        /* --- Section Structure --- */
+        .proof-section {
+            position: relative;
+            padding: 100px 20px;
+            background-color: #080a15;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .ambient-light {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(129, 140, 248, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .proof-container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- Typography --- */
+        .section-header { margin-bottom: 70px; }
+        .sub-header {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--accent-blue);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        .proof-headline {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            color: white;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+        .proof-subtext {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* --- Cards Grid --- */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            perspective: 1000px;
+            margin-bottom: 60px;
+        }
+
+        .persona-card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 30px;
+            text-align: left;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            transform: translateY(0) scale(0.98);
+        }
+
+        .persona-card:hover {
+            transform: translateY(-10px) scale(1);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .persona-card.featured {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(129, 140, 248, 0.3);
+            transform: scale(1.02);
+            z-index: 5;
+        }
+
+        .persona-card.featured:hover {
+            transform: scale(1.05) translateY(-10px);
+            box-shadow: 0 30px 60px rgba(129, 140, 248, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .icon-box {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .blue-icon { color: var(--accent-blue); }
+        .purple-icon { color: var(--accent-purple); background: rgba(129, 140, 248, 0.2); }
+        .orange-icon { color: #fbbf24; }
+
+        .badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.1);
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+        }
+
+        .purple-badge { background: rgba(129, 140, 248, 0.2); color: var(--accent-purple); }
+        .card-title { font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 10px; }
+        .card-desc { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.5; min-height: 40px; }
+
+        .card-stats {
+            display: flex;
+            gap: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .stat { display: flex; flex-direction: column; }
+        .stat .label { font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 4px; text-transform: uppercase; }
+        .stat .value { font-size: 1rem; font-weight: 700; color: white; font-family: monospace; }
+        
+        .blue-text { color: var(--accent-blue); }
+        .purple-text { color: var(--accent-purple); }
+        .orange-text { color: #fbbf24; }
+
+        .card-action { margin-top: auto; }
+        .play-btn { font-size: 0.85rem; font-weight: 600; color: white; cursor: pointer; transition: color 0.2s; display: flex; align-items: center; gap: 6px; }
+        .play-btn:hover { color: var(--accent-blue); }
+
+        .card-glow { position: absolute; top: 0; left: 0; right: 0; height: 150px; opacity: 0.15; filter: blur(40px); pointer-events: none; transition: opacity 0.4s; }
+        .card-glow.blue { background: var(--accent-blue); }
+        .card-glow.purple { background: var(--accent-purple); }
+        .card-glow.orange { background: #fbbf24; }
+        .persona-card:hover .card-glow { opacity: 0.3; }
+
+        .bottom-cta-container { margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .large-btn { padding: 16px 40px; font-size: 1rem; }
+        .disclaimer { font-size: 0.85rem; color: var(--text-secondary); opacity: 0.7; }
+
+        @media (max-width: 768px) {
+            .cards-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto 40px auto; }
+            .persona-card.featured { transform: none; }
+            .persona-card.featured:hover { transform: translateY(-5px); }
+        }
+    </style>
+
+    <script>
+        // Optional: Add a simple tilt effect to cards for extra "premium" feel
+        const cards = document.querySelectorAll('.persona-card');
+
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // Subtle spotlight effect follows cursor
+                card.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.06), rgba(255,255,255,0.03) 40%)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.background = 'rgba(255, 255, 255, 0.03)'; // Reset
+            });
+        });
+    </script>
+<!-- body continues -->
+<section class="deep-dive-section">
+    <div class="duo-container">
+
+        <div class="dive-card brand-card">
+            <div class="card-content">
+                <h2 class="dive-headline">Tone & Brand Compliance, <br><span class="gradient-text">Guaranteed.</span></h2>
+                <p class="dive-subtext">
+                    Ensure every conversation adheres to your established sales persona and brand guidelines. 
+                    We integrate directly with your CRM to enforce tone consistency at scale.
+                </p>
+            </div>
+
+            <div class="visual-area brand-visual">
+                <div class="core-system">
+                    <div class="core-pulse"></div>
+                    <div class="core-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                </div>
+
+                <div class="orbit-ring ring-1"></div>
+                <div class="orbit-ring ring-2"></div>
+
+                <div class="float-badge pos-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
+                    <span>CRM Sync</span>
+                </div>
+
+                <div class="float-badge pos-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <span>Policy Check</span>
+                </div>
+
+                <div class="float-badge pos-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <span>Persona</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="dive-card unique-card">
+            <div class="card-content">
+                <h2 class="dive-headline">100% Unique Conversations, <br><span class="gradient-text">Zero Templates.</span></h2>
+                <p class="dive-subtext">
+                    Our LLM generates dynamic, context-aware dialogue from scratch. 
+                    It analyzes the prospect's live responses to craft rebuttals that feel truly human, not scripted.
+                </p>
+            </div>
+
+            <div class="visual-area unique-visual">
+                <div class="prompt-simulation">
+                    <span class="prompt-label">PROMPT CONTEXT:</span>
+                    <div class="prompt-text">"Prospect mentioned budget cuts in Q4. Pivot to ROI-focused rebuttal."</div>
+                </div>
+
+                <div class="flow-line"></div>
+
+                <div class="generated-bubble">
+                    <div class="bubble-header">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                        <span class="bubble-title">AI GENERATED RESPONSE</span>
+                    </div>
+                    <p class="bubble-text">
+                        "I completely understand the budget constraints. That's actually why most CFOs switch to us in Q4â€”we typically reduce operational overhead by 30% within the first month, freeing up capital for..."
+                    </p>
+                    <div class="cursor-blink">|</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<style>
+    /* --- Section Layout --- */
+    .deep-dive-section {
+        padding: 80px 5%;
+        background-color: #080a15;
+        display: flex;
+        justify-content: center;
+    }
+
+    .duo-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        max-width: 1200px;
+        width: 100%;
+    }
+
+    /* --- Card Base Styles --- */
+    .dive-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 24px;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+        transition: transform 0.3s ease, border-color 0.3s ease;
+        position: relative;
+    }
+
+    .dive-card:hover {
+        border-color: rgba(56, 189, 248, 0.3);
+        transform: translateY(-5px);
+    }
+
+    .card-content {
+        position: relative;
+        z-index: 10;
+        margin-bottom: 40px;
+    }
+
+    .dive-headline {
+        font-size: 2rem;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 16px;
+        line-height: 1.2;
+    }
+
+    .dive-subtext {
+        font-size: 1rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+    }
+
+    /* --- Visual Area Base --- */
+    .visual-area {
+        height: 300px;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 16px;
+        position: relative;
+        overflow: hidden; /* Keep elements inside */
+    }
+
+    /* --- Left Visual: Branding (Orbit System) --- */
+    .brand-visual {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(circle at center, rgba(56, 189, 248, 0.1) 0%, transparent 70%);
+    }
+
+    .core-system {
+        width: 60px;
+        height: 60px;
+        background: #0f172a;
+        border: 1px solid var(--accent-blue);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 5;
+        box-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
+    }
+
+    /* Orbit Rings */
+    .orbit-ring {
+        position: absolute;
+        border: 1px dashed rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .ring-1 { width: 180px; height: 180px; }
+    .ring-2 { width: 280px; height: 280px; border-color: rgba(255, 255, 255, 0.05); }
+
+    /* Floating Badges */
+    .float-badge {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 99px;
+        font-size: 0.75rem;
+        color: white;
+        font-weight: 600;
+        backdrop-filter: blur(4px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        animation: float 6s infinite ease-in-out;
+    }
+
+    .pos-1 { top: 20%; right: 20%; animation-delay: 0s; }
+    .pos-2 { bottom: 25%; left: 15%; animation-delay: 2s; }
+    .pos-3 { top: 30%; left: 20%; animation-delay: 1s; }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    /* --- Right Visual: Uniqueness (Prompt Flow) --- */
+    .unique-visual {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: radial-gradient(circle at center, rgba(129, 140, 248, 0.08) 0%, transparent 70%);
+    }
+
+    .prompt-simulation {
+        width: 90%;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 10px 15px;
+        margin-bottom: 15px;
+    }
+
+    .prompt-label {
+        display: block;
+        font-size: 0.65rem;
+        color: var(--accent-blue);
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+
+    .prompt-text {
+        font-family: 'Courier New', monospace;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .flow-line {
+        width: 2px;
+        height: 20px;
+        background: linear-gradient(to bottom, var(--accent-blue), var(--accent-purple));
+        margin-bottom: 15px;
+    }
+
+    .generated-bubble {
+        width: 95%;
+        background: linear-gradient(135deg, rgba(30, 27, 75, 0.9), rgba(15, 23, 42, 0.9));
+        border: 1px solid var(--accent-purple);
+        border-radius: 12px;
+        padding: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        position: relative;
+    }
+
+    .bubble-header {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 8px;
+    }
+
+    .bubble-title {
+        margin-left: auto;
+        font-size: 0.65rem;
+        color: var(--accent-purple);
+        font-weight: 700;
+    }
+
+    .bubble-text {
+        font-size: 0.85rem;
+        color: #e2e8f0;
+        line-height: 1.5;
+    }
+    
+    .cursor-blink {
+        display: inline-block;
+        color: var(--accent-purple);
+        animation: blink 1s infinite;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+        .duo-container {
+            grid-template-columns: 1fr;
+        }
+        .visual-area { height: 250px; }
+    }
+</style>
+<!-- duplicate document block start -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Coldcaller | Autonomous Lead Generation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS Variables & Reset --- */
+        :root {
+            --bg-space: #080a15;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --accent-blue: #38bdf8;
+            --accent-purple: #818cf8;
+            --glow-shadow: rgba(56, 189, 248, 0.4);
+            --font-inter: 'Inter', sans-serif;
+            --header-height: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-inter);
+            background-color: var(--bg-space);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Global Styles --- */
+        a { text-decoration: none; }
+        
+        /* Gradient Text Utility */
+        .text-gradient {
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* --- 1. Fixed Header (from previous code) --- */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: var(--header-height);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            z-index: 100;
+            background: rgba(8, 10, 21, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            letter-spacing: -0.02em;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            margin-right: auto; /* Push nav links to center */
+            margin-left: 100px;
+        }
+
+        .nav-item {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item:hover {
+            color: var(--text-primary);
+        }
+
+        /* --- Primary CTA Button Style (from previous code) --- */
+        .btn-primary {
+            padding: 12px 28px;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: white;
+            border: none;
+            cursor: pointer;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            box-shadow: 0 4px 20px var(--glow-shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(56, 189, 248, 0.6);
+        }
+
+        /* --- NEW HERO SECTION STYLES (MATCHING DORA.RUN) --- */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: var(--header-height) 20px 0; /* Adjust padding for fixed header */
+            text-align: center;
+            overflow: hidden;
+            background-color: var(--bg-space);
+        }
+
+        /* Celestial Orb Background */
+        .celestial-orb {
+            position: absolute;
+            bottom: -50%; /* Half hidden at the bottom */
+            left: 50%;
+            transform: translateX(-50%) rotateX(60deg); /* Tilt it */
+            width: 150vw; /* Make it very wide */
+            height: 150vw;
+            max-width: 2000px; /* Cap max size */
+            max-height: 2000px;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, rgba(16, 20, 50, 0.8) 0%, rgba(8, 10, 21, 0.9) 70%, rgba(8, 10, 21, 1) 100%);
+            box-shadow: 0px 0px 100px rgba(16, 20, 50, 0.7); /* Subtle glow */
+            filter: blur(1px); /* Slight blur for atmospheric effect */
+            z-index: 1;
+        }
+        
+        /* Floating Stars */
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle 5s infinite ease-in-out;
+            z-index: 0;
+        }
+
+        .star:nth-child(1) { top: 10%; left: 15%; width: 2px; height: 2px; animation-delay: 0s; }
+        .star:nth-child(2) { top: 5%; left: 30%; width: 1px; height: 1px; animation-delay: 1s; }
+        .star:nth-child(3) { top: 20%; right: 20%; width: 3px; height: 3px; animation-delay: 2s; }
+        .star:nth-child(4) { top: 15%; right: 5%; width: 2px; height: 2px; animation-delay: 0.5s; }
+        .star:nth-child(5) { bottom: 20%; left: 25%; width: 1px; height: 1px; animation-delay: 3s; }
+        .star:nth-child(6) { bottom: 10%; right: 30%; width: 2px; height: 2px; animation-delay: 1.5s; }
+        .star:nth-child(7) { top: 30%; left: 40%; width: 1px; height: 1px; animation-delay: 2.5s; }
+        .star:nth-child(8) { top: 25%; right: 45%; width: 2px; height: 2px; animation-delay: 0.8s; }
+        /* Add more stars as needed */
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: -140px; /* lift content above hourglass shapes */
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2.3vw, 1.5rem);
+            line-height: 1.5;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 28px;
+            max-width: 780px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-secondary {
+            padding: 12px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            background: transparent;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content { margin-top: -80px; }
+        }
+
+        /* Central AI Orb (Dora AI inspired) */
+        .ai-orb-container {
+            position: relative;
+            margin-bottom: 40px; /* Space above headline */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .ai-orb {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, #FF5733 0%, #E63946 50%, #B80C09 100%); /* Fiery gradient */
+            box-shadow: 0 0 25px rgba(255, 87, 51, 0.7), 0 0 50px rgba(230, 57, 70, 0.5);
+            animation: pulse-orb 2s infinite ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px; /* Placeholder for icon */
+            color: white;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Inner glowing circle for the AI Orb */
+        .ai-orb::before {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 60%;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            filter: blur(10px);
+            opacity: 0.8;
+        }
+        .ai-orb::after { /* Second, more subtle glow */
+            content: '';
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            filter: blur(15px);
+            opacity: 0.6;
+        }
+
+
+        @keyframes pulse-orb {
+            0% { transform: scale(1); box-shadow: 0 0 25px rgba(255, 87, 51, 0.7), 0 0 50px rgba(230, 57, 70, 0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 0 35px rgba(255, 87, 51, 0.9), 0 0 60px rgba(230, 57, 70, 0.7); }
+            100% { transform: scale(1); box-shadow: 0 0 25px rgba(255, 87, 51, 0.7), 0 0 50px rgba(230, 57, 70, 0.5); }
+        }
+
+        .ai-orb-label {
+            margin-top: 15px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .beta-tag {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            line-height: 1.1;
+            font-weight: 800;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+            background: linear-gradient(to bottom, #ffffff 0%, #e2e8f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Demo Input Group (Updated to match Dora's style) */
+        .demo-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 8px;
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .demo-group .icon {
+            color: var(--accent-blue);
+            font-size: 1.2rem;
+            margin: 0 10px;
+        }
+
+        .demo-input {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            padding: 0 10px;
+            font-size: 1rem;
+            color: white;
+            outline: none;
+            height: 40px; /* Ensure consistent height */
+        }
+
+        .demo-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .generate-btn {
+            background: white; /* White button with dark text */
+            color: #1a202c;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .generate-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .generate-btn .arrow {
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+
+        /* "Watch the video" CTA */
+        .watch-video-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 40px;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .watch-video-cta:hover {
+            color: var(--accent-blue);
+        }
+
+        .play-icon {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--text-secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.3s ease;
+        }
+        .watch-video-cta:hover .play-icon {
+            border-color: var(--accent-blue);
+        }
+        .play-icon svg {
+            fill: var(--text-secondary);
+            transition: fill 0.3s ease;
+        }
+        .watch-video-cta:hover .play-icon svg {
+            fill: var(--accent-blue);
+        }
+
+        /* Awards Badge (Bottom Right) */
+        .awards-badge {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 50;
+        }
+        .awards-badge svg {
+            width: 30px;
+            height: 30px;
+            margin-bottom: 5px;
+            fill: #ffd700; /* Gold color */
+        }
+        
+        /* Simulation Overlay (from previous code, adjusted positioning) */
+        .simulation-overlay {
+            position: fixed; /* Changed to fixed to float independently */
+            bottom: 40px;
+            right: -450px; /* Start off-screen */
+            width: 100%;
+            max-width: 400px;
+            background: #0f111a;
+            border: 1px solid var(--accent-blue);
+            border-radius: 12px;
+            padding: 20px;
+            opacity: 0;
+            transition: right 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.6s ease;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5), 0 0 30px var(--accent-purple);
+            z-index: 2000;
+            text-align: left;
+        }
+
+        .simulation-overlay.active {
+            right: 40px; /* Slide into view */
+            opacity: 1;
+        }
+
+        .sim-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+            padding-bottom: 8px;
+        }
+
+        .sim-content {
+            font-size: 0.9rem;
+            color: #d1d5db;
+            text-align: left;
+            font-family: 'Courier New', Courier, monospace; /* Code/Terminal feel */
+            line-height: 1.5;
+        }
+        
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 1024px) {
+            .nav-links { margin-left: 50px; }
+            .awards-badge { bottom: 20px; right: 20px; padding: 10px 15px; }
+            .simulation-overlay { max-width: 350px; right: -380px; }
+            .simulation-overlay.active { right: 20px; }
+            .celestial-orb { bottom: -60%; width: 200vw; height: 200vw; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* Hide nav links on mobile */
+            .header { padding: 0 20px; }
+            .hero { padding-top: var(--header-height); }
+            .hero h1 { font-size: clamp(2.5rem, 8vw, 4rem); margin-bottom: 30px; }
+            .ai-orb-container { margin-bottom: 30px; }
+            .ai-orb-label { font-size: 1.3rem; }
+            .demo-group { flex-direction: column; padding: 15px; gap: 15px; max-width: 90%; }
+            .demo-input { width: 100%; text-align: center; }
+            .generate-btn { width: 100%; justify-content: center; }
+            .awards-badge { display: none; } /* Hide badge on smaller screens */
+            .simulation-overlay {
+                width: calc(100% - 40px);
+                max-width: 400px;
+                right: -100%;
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 20px;
+            }
+            .simulation-overlay.active {
+                right: auto;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .celestial-orb { bottom: -80%; width: 250vw; height: 250vw; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="#" class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="url(#paint0_linear)" stroke-width="2"/>
+                <path d="M12 6V18M6 12H18" stroke="url(#paint1_linear)" stroke-width="2" stroke-linecap="round"/>
+                <defs>
+                    <linearGradient id="paint0_linear" x1="2" y1="12" x2="22" y2="12" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#38BDF8"/>
+                        <stop offset="1" stop-color="#818CF8"/>
+                    </linearGradient>
+                    <linearGradient id="paint1_linear" x1="6" y1="12" x2="18" y2="12" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#38BDF8"/>
+                        <stop offset="1" stop-color="#818CF8"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+            AICaller
+        </a>
+
+        <nav class="nav-links">
+            <a href="#overview" class="nav-item">Overview</a>
+            <a href="/features" class="nav-item">Features</a>
+            <a href="/testimonials" class="nav-item">Testimonials</a>
+            <a href="#roadmap" class="nav-item">Roadmap</a>
+            <a href="#faq" class="nav-item">FAQ</a>
+            <a href="#about" class="nav-item">About AICaller</a>
+        </nav>
+
+        <button class="btn-primary">Get Started &rarr;</button>
+    </header>
+
+    <section class="hero">
+        <div class="celestial-orb"></div>
+        
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+
+        <div class="hero-content">
+            <div class="ai-orb-container">
+                <div class="ai-orb">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                    </svg>
+                </div>
+                <div class="ai-orb-label">
+                    AICaller AI <span class="beta-tag">Beta</span>
+                </div>
+            </div>
+
+            <h1>
+                Conversations Beyond Expectation,<br>
+                <span style="color:white;">One Prompt Away.</span>
+            </h1>
+            
+            <div class="demo-group">
+                <span class="icon">&#9733;</span> <input type="text" class="demo-input" id="promptInput" 
+                       placeholder="Web exhibit with inflatable Chinese temples.">
+                <button class="generate-btn" id="generateBtn">
+                    Generate <span class="arrow">&rarr;</span>
+                </button>
+            </div>
+
+            <a href="#" class="watch-video-cta">
+                <span class="play-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </span>
+                Watch the video
+            </a>
+        </div>
+
+        <div class="awards-badge">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 1L9 5H4v5l-3 3 3 3v5h5l3 3 3-3h5v-5l3-3-3-3V5h-5l-3-4zm0 2.29L14.71 6H19v3.71L16.29 12 19 14.29V18h-4.71L12 20.71 9.29 18H5v-3.71L7.71 12 5 9.71V6h4.71L12 3.29z"/>
+                <circle cx="12" cy="12" r="3"/>
+            </svg>
+            Golden Kitty Awards<br>2023
+        </div>
+
+    </section>
+
+    <!-- Duplicate simulation overlay removed to avoid duplicate IDs -->
+
+    <script>
+        // Interactive Demo Logic (updated for "Generate" button)
+        const generateBtn = document.getElementById('generateBtn');
+
+        if (generateBtn) {
+        generateBtn.addEventListener('click', () => {
+            const originalText = generateBtn.innerHTML;
+            generateBtn.innerHTML = 'Generating... <span class="arrow">&rarr;</span>';
+            generateBtn.disabled = true;
+            
+            simOverlay.classList.add('active');
+            simText.innerHTML = '<span class="typing-cursor">Processing prompt...</span>';
+
+            setTimeout(() => {
+                const generatedOutput = `<strong>AI Response:</strong> Your request for "${promptInput.value}" is being processed.<br><br><strong>Estimated Time:</strong> 15-20 seconds.<br><br><strong>Status:</strong> Awaiting asset compilation...`;
+                simText.innerHTML = generatedOutput;
+                
+                setTimeout(() => {
+                    generateBtn.innerHTML = originalText;
+                    generateBtn.disabled = false;
+                    // Optional: Keep overlay active for a bit longer or hide it.
+                    // simOverlay.classList.remove('active'); 
+                }, 3000); // Reset button after 3 seconds
+            }, 1000); // Simulate processing delay
+        });
+        }
+
+        // Allow 'Enter' key to trigger generation
+        promptInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                generateBtn.click();
+            }
+        });
+
+    </script>
+</body>
+</html>
+-->
+<section class="roadmap-section" id="roadmap">
+    
+    <div class="nebula-bg"></div>
+
+    <div class="roadmap-container">
+        
+        <div class="roadmap-content">
+            <div class="roadmap-header">
+                <span class="sub-header">FUTURE PROOFING</span>
+                <h2 class="roadmap-headline">Building the <span class="gradient-text">Future of Voice.</span></h2>
+                <p class="roadmap-desc">
+                    Our development pipeline is transparent. We are moving from simple scripting to fully autonomous, multi-modal agents.
+                </p>
+            </div>
+
+            <div class="timeline-wrapper">
+                <div class="timeline-line"></div>
+
+                <div class="timeline-item shipped">
+                    <div class="marker-box">
+                        <div class="marker check">âœ“</div>
+                    </div>
+                    <div class="timeline-card">
+                        <div class="card-top">
+                            <h3 class="feature-name">Text-to-Call Script Engine</h3>
+                            <span class="status-badge shipped">SHIPPED</span>
+                        </div>
+                        <p class="feature-details">
+                            The core foundation. Zero-latency conversion of text prompts into natural, human-paced speech patterns.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="timeline-item shipped">
+                    <div class="marker-box">
+                        <div class="marker check">âœ“</div>
+                    </div>
+                    <div class="timeline-card">
+                        <div class="card-top">
+                            <h3 class="feature-name">Human-Like Rebuttal Model</h3>
+                            <span class="status-badge shipped">SHIPPED</span>
+                        </div>
+                        <p class="feature-details">
+                            Context-aware objection handling trained on 50k+ successful sales calls.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="timeline-item in-progress">
+                    <div class="marker-box">
+                        <div class="marker pulse-dot"></div>
+                    </div>
+                    <div class="timeline-card active-card">
+                        <div class="card-top">
+                            <h3 class="feature-name">Native Multi-Language Support</h3>
+                            <span class="status-badge progress">IN PROGRESS v1.2</span>
+                        </div>
+                        <p class="feature-details">
+                            Scaling cold calls globally. Automatic detection of dialect and accent matching for EU & APAC regions.
+                        </p>
+                        <div class="progress-bar-container">
+                            <div class="progress-fill" style="width: 65%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item planned">
+                    <div class="marker-box">
+                        <div class="marker hollow"></div>
+                    </div>
+                    <div class="timeline-card">
+                        <div class="card-top">
+                            <h3 class="feature-name">API Webhooks & CRM Write-Back</h3>
+                            <span class="status-badge planned">PLANNED Q4</span>
+                        </div>
+                        <p class="feature-details">
+                            Deep integration allowing the AI to update Salesforce deal stages based on call sentiment analysis.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="roadmap-visual">
+            <div class="globe-container">
+                <div class="wireframe-globe">
+                    <div class="ring r1"></div>
+                    <div class="ring r2"></div>
+                    <div class="ring r3"></div>
+                    <div class="core-light"></div>
+                </div>
+                
+                <div class="version-floater">
+                    <span class="v-label">CURRENT RELEASE</span>
+                    <span class="v-num">v1.1.4 (Beta)</span>
+                </div>
+            </div>
+
+            <div class="rd-message">
+                <h4>Your vision fuels our R&D.</h4>
+                <p>
+                    Every subscription directly funds the training of our next-gen Neural Audio models. 
+                    We are building this together.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<style>
+    /* --- Section Layout --- */
+    .roadmap-section {
+        position: relative;
+        padding: 100px 5%;
+        background-color: #080a15;
+        overflow: hidden;
+    }
+
+    .roadmap-container {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 60px;
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Background Effect */
+    .nebula-bg {
+        position: absolute;
+        bottom: 0; right: 0;
+        width: 100%; height: 100%;
+        background: radial-gradient(circle at 90% 90%, rgba(129, 140, 248, 0.05) 0%, transparent 50%);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* --- Typography --- */
+    .roadmap-headline {
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 800;
+        color: white;
+        margin-bottom: 15px;
+    }
+
+    .roadmap-desc {
+        font-size: 1rem;
+        color: var(--text-secondary);
+        margin-bottom: 50px;
+        max-width: 90%;
+        line-height: 1.6;
+    }
+
+    /* --- Timeline Styles --- */
+    .timeline-wrapper {
+        position: relative;
+        padding-left: 40px;
+    }
+
+    .timeline-line {
+        position: absolute;
+        left: 14px;
+        top: 10px;
+        bottom: 40px;
+        width: 2px;
+        background: linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, var(--accent-blue) 50%, rgba(255,255,255,0.1) 100%);
+    }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: 40px;
+    }
+
+    /* Markers */
+    .marker-box {
+        position: absolute;
+        left: -41px;
+        top: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #080a15; /* Covers the line */
+        z-index: 2;
+    }
+
+    .marker {
+        width: 24px; height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .marker.check {
+        background: rgba(255, 255, 255, 0.1);
+        color: #4ade80;
+        border: 1px solid #4ade80;
+    }
+
+    .marker.pulse-dot {
+        background: var(--accent-blue);
+        box-shadow: 0 0 10px var(--accent-blue);
+        animation: pulse-marker 2s infinite;
+    }
+
+    .marker.hollow {
+        border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    @keyframes pulse-marker {
+        0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7); }
+        70% { box-shadow: 0 0 0 6px rgba(56, 189, 248, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+    }
+
+    /* Cards */
+    .timeline-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 20px;
+        transition: transform 0.3s ease;
+    }
+
+    .timeline-card.active-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(56, 189, 248, 0.3);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .feature-name {
+        font-size: 1.1rem;
+        color: white;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .status-badge {
+        font-size: 0.7rem;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+
+    .status-badge.shipped { background: rgba(74, 222, 128, 0.1); color: #4ade80; }
+    .status-badge.progress { background: rgba(56, 189, 248, 0.2); color: var(--accent-blue); }
+    .status-badge.planned { background: rgba(255, 255, 255, 0.1); color: var(--text-secondary); }
+
+    .feature-details {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        line-height: 1.5;
+    }
+
+    .timeline-item.shipped .timeline-card { opacity: 0.7; }
+    .timeline-item.shipped:hover .timeline-card { opacity: 1; }
+
+    /* Progress Bar in Card */
+    .progress-bar-container {
+        width: 100%;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 2px;
+        margin-top: 15px;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+        border-radius: 2px;
+    }
+
+    /* --- Right Column: Visual Anchor --- */
+    .roadmap-visual {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .globe-container {
+        width: 300px;
+        height: 300px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 40px;
+    }
+
+    /* CSS Wireframe Globe */
+    .wireframe-globe {
+        width: 240px;
+        height: 240px;
+        border-radius: 50%;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: rotateGlobe 20s linear infinite;
+    }
+
+    .ring {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        border: 1px solid rgba(129, 140, 248, 0.3);
+        border-radius: 50%;
+    }
+
+    .r1 { transform: rotateY(0deg); }
+    .r2 { transform: rotateY(60deg); }
+    .r3 { transform: rotateY(-60deg); }
+    
+    /* Horizontal lines */
+    .wireframe-globe::before {
+        content: ''; position: absolute; top: 20%; left: 5%; right: 5%; height: 1px;
+        background: rgba(129, 140, 248, 0.2);
+    }
+    .wireframe-globe::after {
+        content: ''; position: absolute; bottom: 20%; left: 5%; right: 5%; height: 1px;
+        background: rgba(129, 140, 248, 0.2);
+    }
+
+    .core-light {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100px; height: 100px;
+        background: radial-gradient(circle, rgba(56, 189, 248, 0.4) 0%, transparent 70%);
+        filter: blur(20px);
+    }
+
+    @keyframes rotateGlobe {
+        0% { transform: rotateY(0deg) rotateX(10deg); }
+        100% { transform: rotateY(360deg) rotateX(10deg); }
+    }
+
+    .version-floater {
+        position: absolute;
+        bottom: 0;
+        background: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .v-label { display: block; font-size: 0.65rem; color: var(--text-secondary); margin-bottom: 2px; }
+    .v-num { display: block; font-size: 0.9rem; color: white; font-family: monospace; font-weight: 700; }
+
+    /* R&D Message */
+    .rd-message {
+        text-align: center;
+        max-width: 350px;
+    }
+
+    .rd-message h4 {
+        font-size: 1.1rem;
+        color: white;
+        margin-bottom: 10px;
+    }
+
+    .rd-message p {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        line-height: 1.5;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+        .roadmap-container { grid-template-columns: 1fr; }
+        .roadmap-visual { order: -1; margin-bottom: 50px; }
+        .globe-container { width: 200px; height: 200px; }
+        .wireframe-globe { width: 160px; height: 160px; }
+    }
+</style>
+<!--
+<section class="proof-section">
+    
+    <div class="ambient-light"></div>
+
+    <div class="proof-container">
+        
+        <div class="section-header">
+            <span class="sub-header">KEY CAPABILITIES</span>
+            <h2 class="proof-headline">
+                The first AI that truly <span class="gradient-text">sounds human.</span>
+            </h2>
+            <p class="proof-subtext">
+                Switch between specialized agents instantly. From high-energy sales to empathetic support, our models adapt to your goal.
+            </p>
+        </div>
+
+        <div class="cards-grid">
+            
+            <div class="persona-card">
+                <div class="card-glow blue"></div>
+                <div class="card-header">
+                    <div class="icon-box blue-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    </div>
+                    <span class="badge">HIGH CONVERSION</span>
+                </div>
+                <h3 class="card-title">The Closer</h3>
+                <p class="card-desc">Aggressive but polite. optimizing for appointment setting and overcoming initial objections.</p>
+                
+                <div class="card-stats">
+                    <div class="stat">
+                        <span class="label">Conv. Rate</span>
+                        <span class="value blue-text">18.4%</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">Avg. Time</span>
+                        <span class="value">1m 45s</span>
+                    </div>
+                </div>
+                
+                <div class="card-action">
+                    <span class="play-btn">â–¶ Listen to Sample</span>
+                </div>
+            </div>
+
+            <div class="persona-card featured">
+                <div class="card-glow purple"></div>
+                <div class="card-header">
+                    <div class="icon-box purple-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                    </div>
+                    <span class="badge purple-badge">TOP RATED</span>
+                </div>
+                <h3 class="card-title">The Empath</h3>
+                <p class="card-desc">Warm, patient, and understanding. Perfect for customer retention, surveys, and feedback.</p>
+                
+                <div class="card-stats">
+                    <div class="stat">
+                        <span class="label">Sentiment</span>
+                        <span class="value purple-text">9.8/10</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">Retention</span>
+                        <span class="value">High</span>
+                    </div>
+                </div>
+
+                <div class="card-action">
+                    <span class="play-btn">â–¶ Listen to Sample</span>
+                </div>
+            </div>
+
+            <div class="persona-card">
+                <div class="card-glow orange"></div>
+                <div class="card-header">
+                    <div class="icon-box orange-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                    </div>
+                    <span class="badge">BETA</span>
+                </div>
+                <h3 class="card-title">The Negotiator</h3>
+                <p class="card-desc">Handles complex pricing discussions and contract terms using logic-based rebuttal paths.</p>
+                
+                <div class="card-stats">
+                    <div class="stat">
+                        <span class="label">Logic Score</span>
+                        <span class="value orange-text">99%</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">Depth</span>
+                        <span class="value">Lvl 4</span>
+                    </div>
+                </div>
+
+                <div class="card-action">
+                    <span class="play-btn">â–¶ Listen to Sample</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="bottom-cta-container">
+            <button class="btn-primary large-btn">Start Your Campaign &rarr;</button>
+            <p class="disclaimer">No credit card required for first 100 calls.</p>
+        </div>
+
+    </div>
+</section>
+
+<style>
+    /* --- Section Structure --- */
+    .proof-section {
+        position: relative;
+        padding: 100px 20px;
+        background-color: #080a15;
+        overflow: hidden;
+        text-align: center;
+    }
+
+    .ambient-light {
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60vw;
+        height: 60vw;
+        background: radial-gradient(circle, rgba(129, 140, 248, 0.08) 0%, transparent 60%);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .proof-container {
+        position: relative;
+        z-index: 2;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* --- Typography --- */
+    .section-header {
+        margin-bottom: 70px;
+    }
+
+    .sub-header {
+        display: inline-block;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        color: var(--accent-blue);
+        margin-bottom: 15px;
+        text-transform: uppercase;
+    }
+
+    .proof-headline {
+        font-size: clamp(2.5rem, 5vw, 3.5rem);
+        font-weight: 800;
+        color: white;
+        margin-bottom: 20px;
+        line-height: 1.1;
+    }
+
+    .proof-subtext {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    /* --- Cards Grid --- */
+    .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        perspective: 1000px;
+        margin-bottom: 60px;
+    }
+
+    .persona-card {
+        position: relative;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 24px;
+        padding: 30px;
+        text-align: left;
+        transition: all 0.4s ease;
+        backdrop-filter: blur(10px);
+        overflow: hidden;
+        /* Default state slightly pushed back */
+        transform: translateY(0) scale(0.98);
+    }
+
+    .persona-card:hover {
+        transform: translateY(-10px) scale(1);
+        border-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    /* Featured Card (Center) Styles */
+    .persona-card.featured {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(129, 140, 248, 0.3);
+        transform: scale(1.02);
+        z-index: 5;
+    }
+
+    .persona-card.featured:hover {
+        transform: scale(1.05) translateY(-10px);
+        box-shadow: 0 30px 60px rgba(129, 140, 248, 0.15);
+    }
+
+    /* Internal Card Elements */
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .icon-box {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .blue-icon { color: var(--accent-blue); }
+    .purple-icon { color: var(--accent-purple); background: rgba(129, 140, 248, 0.2); }
+    .orange-icon { color: #fbbf24; }
+
+    .badge {
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 4px 8px;
+        border-radius: 6px;
+        background: rgba(255,255,255,0.1);
+        color: var(--text-secondary);
+        letter-spacing: 0.5px;
+    }
+
+    .purple-badge {
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-purple);
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 10px;
+    }
+
+    .card-desc {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-bottom: 24px;
+        line-height: 1.5;
+        min-height: 40px;
+    }
+
+    .card-stats {
+        display: flex;
+        gap: 20px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .stat { display: flex; flex-direction: column; }
+    .stat .label { font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 4px; text-transform: uppercase; }
+    .stat .value { font-size: 1rem; font-weight: 700; color: white; font-family: monospace; }
+    
+    .blue-text { color: var(--accent-blue); }
+    .purple-text { color: var(--accent-purple); }
+    .orange-text { color: #fbbf24; }
+
+    .card-action {
+        margin-top: auto;
+    }
+
+    .play-btn {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: white;
+        cursor: pointer;
+        transition: color 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .play-btn:hover { color: var(--accent-blue); }
+
+    /* Hover Glow Effects */
+    .card-glow {
+        position: absolute;
+        top: 0; left: 0; right: 0; height: 150px;
+        opacity: 0.15;
+        filter: blur(40px);
+        pointer-events: none;
+        transition: opacity 0.4s;
+    }
+    .card-glow.blue { background: var(--accent-blue); }
+    .card-glow.purple { background: var(--accent-purple); }
+    .card-glow.orange { background: #fbbf24; }
+    
+    .persona-card:hover .card-glow { opacity: 0.3; }
+
+    /* --- Bottom CTA --- */
+    .bottom-cta-container {
+        margin-top: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .large-btn {
+        padding: 16px 40px;
+        font-size: 1rem;
+    }
+
+    .disclaimer {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        opacity: 0.7;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .cards-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto 40px auto; }
+        .persona-card.featured { transform: none; }
+        .persona-card.featured:hover { transform: translateY(-5px); }
+    }
+</style>
+
+<script>
+    // Optional: Add a simple tilt effect to cards for extra "premium" feel
+    const cards = document.querySelectorAll('.persona-card');
+
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Subtle spotlight effect follows cursor
+            card.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.06), rgba(255,255,255,0.03) 40%)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.background = 'rgba(255, 255, 255, 0.03)'; // Reset
+        });
+    });
+</script>
+<!-- document end -->
+</body>
+</html>
+<section class="final-conversion-section" id="trial">
+    
+    <div class="horizon-glow"></div>
+
+    <div class="conversion-container">
+        
+        <div class="friction-removers">
+            <div class="remover-item">
+                <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>No credit card required</span>
+            </div>
+            <div class="remover-item">
+                <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Launch 10 free calls</span>
+            </div>
+            <div class="remover-item">
+                <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Instant API Key</span>
+            </div>
+            <div class="remover-item mobile-hide">
+                <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>SOC-2 Compliant</span>
+            </div>
+        </div>
+
+        <h2 class="conversion-headline">
+            Your next pipeline of leads is<br>
+            <span class="white-text">one click away.</span>
+        </h2>
+
+        <div class="cta-wrapper">
+            <a href="#" class="dominant-cta-button">
+                Start For Free
+                <svg class="cta-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+            <p class="cta-subtext">Stop dialing. Start closing.</p>
+        </div>
+
+    </div>
+</section>
+
+<footer class="site-footer">
+    <div class="footer-content">
+        <div class="footer-left">
+            <span class="footer-logo">AICaller</span>
+            <span class="copyright">Â© 2024 Autonomous Inc.</span>
+        </div>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Twitter</a>
+            <a href="#">LinkedIn</a>
+        </div>
+    </div>
+</footer>
+
+<style>
+    /* --- Section Layout --- */
+    .final-conversion-section {
+        position: relative;
+        min-height: 80vh;
+        background-color: #080a15;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        text-align: center;
+        padding: 0 20px;
+    }
+
+    /* Horizon Glow (Sunrise Effect) */
+    .horizon-glow {
+        position: absolute;
+        bottom: -20%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120vw;
+        height: 50vh;
+        background: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.3) 0%, rgba(129, 140, 248, 0.1) 40%, transparent 70%);
+        filter: blur(60px);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .conversion-container {
+        position: relative;
+        z-index: 10;
+        max-width: 900px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* --- Friction Removers --- */
+    .friction-removers {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px 30px;
+        margin-bottom: 30px;
+    }
+
+    .remover-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        font-weight: 500;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 6px 12px;
+        border-radius: 99px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(4px);
+    }
+
+    .check-icon {
+        width: 14px;
+        height: 14px;
+        color: #4ade80; /* Success Green */
+    }
+
+    /* --- Typography --- */
+    .conversion-headline {
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        font-weight: 800;
+        line-height: 1.1;
+        margin-bottom: 50px;
+        /* Muted top part */
+        color: #9ca3af; 
+    }
+
+    .white-text {
+        color: white;
+        /* Optional text shadow for pop */
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    }
+
+    /* --- Dominant CTA Button --- */
+    .cta-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .dominant-cta-button {
+        /* Unique Gradient: Fiery Orange to Tech Blue */
+        background: linear-gradient(90deg, #ff6600, #38bdf8);
+        color: white;
+        font-size: clamp(1rem, 2vw, 1.25rem);
+        padding: 20px 60px;
+        border-radius: 9999px;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        
+        /* Powerful Glow */
+        box-shadow: 0 0 30px rgba(255, 102, 0, 0.4), 0 0 60px rgba(56, 189, 248, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.2);
+        
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy feel */
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Shine Effect on Hover */
+    .dominant-cta-button::after {
+        content: '';
+        position: absolute;
+        top: 0; left: -100%;
+        width: 100%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        transition: 0.5s;
+    }
+
+    .dominant-cta-button:hover {
+        transform: scale(1.05) translateY(-2px);
+        box-shadow: 0 0 50px rgba(255, 102, 0, 0.6), 0 0 80px rgba(56, 189, 248, 0.4);
+    }
+
+    .dominant-cta-button:hover::after {
+        left: 100%;
+    }
+
+    .cta-arrow {
+        transition: transform 0.3s ease;
+    }
+    
+    .dominant-cta-button:hover .cta-arrow {
+        transform: translateX(5px);
+    }
+
+    .cta-subtext {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        opacity: 0.7;
+    }
+
+    /* --- Footer Styling --- */
+    .site-footer {
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 40px 5%;
+        background-color: #080a15;
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .footer-left {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .footer-logo {
+        font-weight: 700;
+        color: white;
+    }
+
+    .copyright {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+    }
+
+    .footer-links {
+        display: flex;
+        gap: 25px;
+    }
+
+    .footer-links a {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .mobile-hide { display: none; }
+        .footer-content { flex-direction: column; align-items: flex-start; }
+        .footer-links { flex-wrap: wrap; gap: 15px; }
+    }
+</style>
+<footer class="site-footer">
+    <div class="footer-container">
+        
+        <div class="footer-top">
+            
+            <div class="brand-column">
+                <a href="#" class="footer-logo">
+                    <div class="logo-icon">
+                        <div class="inner-circle"></div>
+                    </div>
+                    <span>AICaller</span>
+                </a>
+                <p class="brand-tagline">
+                    Autonomous lead generation for the modern enterprise. Scale your voice, not your headcount.
+                </p>
+                <div class="trust-badge-small">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    <span>SOC-2 Type II Compliant</span>
+                </div>
+            </div>
+
+            <div class="footer-nav">
+                
+                <div class="nav-column">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="#">Use Cases / Scenarios</a></li>
+                        <li><a href="#">Integrations (CRM)</a></li>
+                        <li><a href="#">Dora AI Beta</a></li>
+                        <li><a href="#">API & Developer Docs</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-column">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Changelog</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Affiliate Program</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p class="copyright">Â© 2025 AICaller Ltd. All Rights Reserved.</p>
+            
+            <div class="social-links">
+                <a href="#" class="social-icon" aria-label="Twitter">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="#" class="social-icon" aria-label="LinkedIn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.6.6 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/></svg>
+                </a>
+                <a href="#" class="social-icon" aria-label="GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 002 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02a9.56 9.56 0 015 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+    /* --- Footer Layout --- */
+    .site-footer {
+        background-color: #080a15;
+        color: white;
+        padding: 80px 5% 40px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        font-family: 'Inter', sans-serif;
+    }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .footer-top {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 60px;
+        margin-bottom: 60px;
+    }
+
+    /* --- Brand Column --- */
+    .brand-column {
+        flex: 1;
+        min-width: 250px;
+        max-width: 350px;
+    }
+
+    .footer-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: white;
+        font-weight: 700;
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+    }
+
+    .logo-icon {
+        width: 24px; height: 24px;
+        background: linear-gradient(135deg, #38bdf8, #818cf8);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .inner-circle {
+        width: 10px; height: 10px;
+        background: #080a15;
+        border-radius: 50%;
+    }
+
+    .brand-tagline {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: 25px;
+    }
+
+    .trust-badge-small {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        border: 1px solid rgba(74, 222, 128, 0.2);
+        background: rgba(74, 222, 128, 0.05);
+        border-radius: 6px;
+        color: #4ade80;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    /* --- Nav Columns --- */
+    .footer-nav {
+        display: flex;
+        gap: 60px;
+        flex-wrap: wrap;
+    }
+
+    .nav-column h4 {
+        color: #38bdf8; /* Accent Color per request */
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 24px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .nav-column ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .nav-column li {
+        margin-bottom: 14px;
+    }
+
+    .nav-column a {
+        color: rgba(255, 255, 255, 0.6);
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+    }
+
+    .nav-column a:hover {
+        color: white;
+        padding-left: 4px; /* Subtle movement */
+    }
+
+    /* --- Bottom Bar --- */
+    .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 30px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .copyright {
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 0.85rem;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 20px;
+    }
+
+    .social-icon {
+        color: rgba(255, 255, 255, 0.6);
+        transition: color 0.2s, transform 0.2s;
+    }
+
+    .social-icon:hover {
+        color: #38bdf8;
+        transform: translateY(-2px);
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+        .footer-top {
+            flex-direction: column;
+            gap: 40px;
+        }
+        .footer-nav {
+            gap: 40px;
+            width: 100%;
+            justify-content: space-between;
+        }
+        .nav-column {
+            flex: 1 1 140px; /* Allow columns to wrap nicely */
+        }
+        .footer-bottom {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+    }
+</style>
