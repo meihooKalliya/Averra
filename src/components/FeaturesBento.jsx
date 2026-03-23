@@ -34,9 +34,27 @@ const FeaturesBento = () => {
                                 <h3 className="text-2xl font-semibold text-white mb-2 text-left">Real sales, not scripts</h3>
                                 <p className="text-blue-200/70">Averra doesn’t read lines—it reads the room. It adapts mid‑call, handles curveball questions, and keeps prospects engaged instead of pushing them away.</p>
                             </div>
-                            <div className="mt-8 relative rounded-xl overflow-hidden border border-white/5 shadow-2xl">
-                                <img src="/src/assets/features/sentiment-analysis.png" alt="Global Markets" className="w-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                            <div className="mt-8 grid grid-cols-2 gap-4">
+                                <motion.div 
+                                    whileHover={{ scale: 1.05 }}
+                                    className="bg-gradient-to-br from-indigo-500/10 to-transparent border border-indigo-500/20 rounded-2xl p-6 flex flex-col items-center justify-center text-center shadow-[inset_0_0_20px_rgba(99,102,241,0.1)] relative overflow-hidden"
+                                >
+                                    <div className="absolute top-0 right-0 w-16 h-16 bg-indigo-400/20 blur-xl rounded-full pointer-events-none" />
+                                    <span className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-green-400 to-emerald-600 mb-2 clash-display">
+                                        &lt; 0.5s
+                                    </span>
+                                    <span className="text-xs text-indigo-300/80 uppercase tracking-widest font-semibold font-mono">Latency</span>
+                                </motion.div>
+                                <motion.div 
+                                    whileHover={{ scale: 1.05 }}
+                                    className="bg-gradient-to-br from-purple-500/10 to-transparent border border-purple-500/20 rounded-2xl p-6 flex flex-col items-center justify-center text-center shadow-[inset_0_0_20px_rgba(168,85,247,0.1)] relative overflow-hidden"
+                                >
+                                    <div className="absolute top-0 right-0 w-16 h-16 bg-purple-400/20 blur-xl rounded-full pointer-events-none" />
+                                    <span className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-blue-400 to-indigo-500 mb-2 clash-display">
+                                        24/7
+                                    </span>
+                                    <span className="text-xs text-purple-300/80 uppercase tracking-widest font-semibold font-mono">Up Time</span>
+                                </motion.div>
                             </div>
                         </div>
                     </motion.div>

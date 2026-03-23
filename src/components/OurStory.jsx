@@ -4,29 +4,29 @@ import { useRef } from "react";
 
 const milestones = [
     {
-        year: "2020",
-        title: "The Inception",
-        description: "It started with a simple question: Why do retail traders settle for second-rate tools? We began coding the engine in a small shared office in London."
+        year: "Sep 2025",
+        title: "Inception",
+        description: "It started with a simple question: Why do sales teams settle for second-rate outreach? We began brainstorming the architecture."
     },
     {
-        year: "2021",
-        title: "Beta Launch",
-        description: "We garnered our first 500 alpha testers. The feedback was brutal but invaluable. We iterated, pivoted, and polished."
+        year: "Oct 2025",
+        title: "Start of Development",
+        description: "The first lines of code were written. We focused on building a scalable, low-latency AI voice engine from the ground up."
     },
     {
-        year: "2022",
-        title: "Global Scale",
-        description: "Expanded our infrastructure to Asian and North American markets. Latency dropped by 40%. User base grew to 10,000."
+        year: "Jan 2026",
+        title: "Product Complete",
+        description: "The core engine reached a stable release. We achieved sub-0.5s latency and implemented real-time objection handling."
     },
     {
-        year: "2023",
-        title: "The Series A",
-        description: "Raised $20M from top-tier VC firms to double down on engineering and data science. The team grew from 5 to 40."
+        year: "Feb 2026",
+        title: "Website Launch",
+        description: "Averra's digital presence goes live, showcasing our capabilities to the world and opening our platform to early adopters."
     },
     {
-        year: "2024",
-        title: "The New Era",
-        description: "Launching v2.0. Completely rewritten core engine, new UI/UX, and AI-driven analytics. This is just the beginning."
+        year: "Mar 2026",
+        title: "Start of Pitching",
+        description: "We officially begin demonstrating Averra's power to enterprises, showing them exactly how we cut the average cost per meeting to just ₹575."
     }
 ];
 

@@ -36,9 +36,7 @@ const CallToAction = () => {
                                 Contact our team <ArrowRight className="w-5 h-5" />
                             </button>
                         </Link>
-                        <button className="px-8 py-4 bg-transparent border border-white/20 text-white rounded-full font-bold text-lg hover:bg-white/5 transition-colors">
-                            Listen to Demos
-                        </button>
+
                     </div>
                 </motion.div>
             </div>

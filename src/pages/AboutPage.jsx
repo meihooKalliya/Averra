@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Users, Trophy, Target, Globe, Linkedin, Twitter } from "lucide-react";
+import { ArrowUpRight, Users, Trophy, Target, Globe, Linkedin, Twitter, Phone, Shield, TrendingUp, Zap } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 import ValuePillars from "../components/ValuePillars";
@@ -21,8 +21,13 @@ const teamMembers = [
   }
 ];
 
-// Stats Data - Removed for initial launch
-const stats = [];
+// Fictitious Stats Data
+const stats = [
+  { value: "50M+", label: "Calls Executed", icon: Phone },
+  { value: "98.5%", label: "Uptime SLA", icon: Shield },
+  { value: "₹2B+", label: "Pipeline Gen", icon: TrendingUp },
+  { value: "<0.5s", label: "Agent Latency", icon: Zap }
+];
 
 const AboutPage = () => {
   const { user } = useAuth();
@@ -93,20 +98,46 @@ const AboutPage = () => {
             </div>
           </div>
 
-          {/* Stats Grid - Hidden for initial launch */}
-          {stats.length > 0 && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 border-y border-white/5 py-12">
-              {stats.map((stat, i) => (
-                <div key={i} className="text-center p-4">
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/5 text-indigo-400 mb-4">
-                    <stat.icon className="w-6 h-6" />
-                  </div>
-                  <h3 className="text-3xl md:text-4xl font-bold text-white mb-1">{stat.value}</h3>
-                  <p className="text-sm text-zinc-500 font-mono uppercase tracking-wider">{stat.label}</p>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="my-32 relative p-[1px] rounded-[2rem] md:rounded-[3rem] bg-gradient-to-b from-indigo-500/30 via-purple-500/10 to-transparent overflow-hidden group shadow-2xl shadow-indigo-500/10 hover:shadow-indigo-500/20 transition-shadow duration-700"
+          >
+            {/* Animated Ambient Glow */}
+            <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-indigo-500/20 blur-[120px] rounded-full pointer-events-none group-hover:bg-indigo-500/30 transition-colors duration-700" />
+            <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-purple-500/20 blur-[120px] rounded-full pointer-events-none group-hover:bg-purple-500/30 transition-colors duration-700" />
+
+            <div className="relative bg-[#040812]/95 backdrop-blur-2xl rounded-[2rem] md:rounded-[3rem] p-12 md:p-24 text-center border border-white/5 h-full overflow-hidden">
+                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 pointer-events-none" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(99,102,241,0.08),transparent_70%)] pointer-events-none" />
+
+                <motion.div 
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.2, duration: 0.6 }}
+                    className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-indigo-500/10 text-indigo-400 mb-10 border border-white/10 shadow-[0_0_50px_-10px_rgba(99,102,241,0.3)] relative z-10"
+                >
+                    <Globe className="w-10 h-10" />
+                </motion.div>
+
+              <h3 className="text-4xl md:text-6xl font-semibold mb-10 text-white clash-display tracking-tighter bg-clip-text text-transparent bg-gradient-to-br from-white via-indigo-100 to-indigo-300 relative z-10">
+                Built at a scale that doesn't need to announce itself.
+              </h3>
+              
+              <div className="max-w-4xl mx-auto space-y-8 relative z-10">
+                <p className="text-zinc-400/90 text-xl md:text-2xl leading-relaxed font-light">
+                  Averra runs quietly in the background of the world's sharpest sales teams — handling conversations at a volume no human floor could sustain, with a consistency no human floor could match. Calls go out the moment they're triggered. Agents stay live around the clock. Pipelines don't pause for sick days, time zones, or team stand-ups.
+                </p>
+                <div className="inline-flex mt-8 px-8 py-4 rounded-full bg-white/5 border border-white/10 shadow-inner backdrop-blur-md">
+                  <p className="text-indigo-300 font-medium text-lg md:text-xl tracking-wide">
+                      When infrastructure works this well, you stop counting calls. You start counting closed deals.
+                  </p>
                 </div>
-              ))}
+              </div>
             </div>
-          )}
+          </motion.div>
         </div>
       </section>
 
@@ -137,8 +168,8 @@ const AboutPage = () => {
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                     <div className="flex gap-3">
-                      <a href="#" className="p-2 bg-white/10 rounded-full hover:bg-indigo-500 transition-colors"><Linkedin className="w-4 h-4" /></a>
-                      <a href="#" className="p-2 bg-white/10 rounded-full hover:bg-sky-500 transition-colors"><Twitter className="w-4 h-4" /></a>
+                      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-white/10 rounded-full hover:bg-indigo-500 transition-colors"><Linkedin className="w-4 h-4" /></a>
+                      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-white/10 rounded-full hover:bg-sky-500 transition-colors"><Twitter className="w-4 h-4" /></a>
                     </div>
                   </div>
                 </div>
@@ -169,9 +200,11 @@ const AboutPage = () => {
                     {user ? "Go to Dashboard" : "Login Now"}
                   </button>
                 </Link>
-                <button className="px-8 py-4 rounded-full bg-white/5 border border-white/10 text-white font-bold text-lg hover:bg-white/10 transition-colors flex items-center justify-center gap-2">
-                  Contact Sales <ArrowUpRight className="w-5 h-5" />
-                </button>
+                <Link to="/contact">
+                  <button className="px-8 py-4 rounded-full bg-white/5 border border-white/10 text-white font-bold text-lg hover:bg-white/10 transition-colors flex items-center justify-center gap-2">
+                    Contact Sales <ArrowUpRight className="w-5 h-5" />
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

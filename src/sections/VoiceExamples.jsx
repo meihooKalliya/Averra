@@ -33,7 +33,7 @@ const VoiceExamples = () => {
   return (
     <section className="proof-container">
       <div className="section-header">
-        <span className="sub-header">KEY CAPABILITIES</span>
+        <span className="sub-header">TOP VOICE AGENTS</span>
         <h2 className="proof-headline">
           The first AI voice that actually <span className="gradient-text">feels human.</span>
         </h2>
@@ -64,9 +64,7 @@ const VoiceExamples = () => {
               <span className="value">Optimal</span>
             </div>
           </div>
-          <div className="card-action">
-            <span className="play-btn">▶ Listen to Sample</span>
-          </div>
+
         </div>
 
         {/* Card 2 Featured */}
@@ -90,9 +88,7 @@ const VoiceExamples = () => {
               <span className="value">High</span>
             </div>
           </div>
-          <div className="card-action">
-            <span className="play-btn">▶ Listen to Sample</span>
-          </div>
+
         </div>
 
         {/* Card 3 */}
@@ -116,9 +112,7 @@ const VoiceExamples = () => {
               <span className="value">High</span>
             </div>
           </div>
-          <div className="card-action">
-            <span className="play-btn">▶ Listen to Sample</span>
-          </div>
+
         </div>
       </div>
 

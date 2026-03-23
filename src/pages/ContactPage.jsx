@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, MapPin, Phone, Send, MessageSquare, ArrowRight } from 'lucide-react';
+import { Mail, Phone, Send, MessageSquare } from 'lucide-react';
 import CallToAction from '../components/CallToAction';
 
 const ContactPage = () => {
@@ -13,8 +13,11 @@ const ContactPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Mock submission
-        alert("Thanks for reaching out! We'll get back to you shortly.");
+        const { name, email, subject, message } = formState;
+        
+        // Native mailto submission so it goes directly to the specified email
+        const mailtoLink = `mailto:averra911@gmail.com?subject=${encodeURIComponent(subject || 'New Contact Request: ' + name)}&body=${encodeURIComponent(`You have received a new message from ${name} (${email}).\n\nMessage:\n${message}`)}`;
+        window.location.href = mailtoLink;
     };
 
     const handleChange = (e) => {
@@ -72,30 +75,14 @@ const ContactPage = () => {
                                     <ContactItem
                                         icon={Mail}
                                         title="Email us"
-                                        content="support@averra.ai"
-                                        sub="We reply within 24 hours"
+                                        content="averra911@gmail.com"
                                     />
                                     <ContactItem
                                         icon={Phone}
                                         title="Call us"
-                                        content="+1 (555) 123-4567"
-                                        sub="Mon-Fri from 8am to 5pm EST"
-                                    />
-                                    <ContactItem
-                                        icon={MapPin}
-                                        title="Visit us"
-                                        content="100 Finance Street, NY"
-                                        sub="New York, NY 10005"
+                                        content="+91 9011357779 / +91 7499 205 636"
                                     />
                                 </div>
-                            </div>
-
-                            <div className="bg-gradient-to-br from-indigo-900/20 to-purple-900/20 p-8 rounded-3xl border border-indigo-500/20">
-                                <h3 className="text-xl font-bold mb-2">Enterprise Inquiry?</h3>
-                                <p className="text-zinc-400 mb-4">We offer tailored solutions for large trading firms.</p>
-                                <a href="#" className="inline-flex items-center text-indigo-400 font-medium hover:text-indigo-300 transition-colors">
-                                    Contact Sales <ArrowRight className="w-4 h-4 ml-2" />
-                                </a>
                             </div>
                         </motion.div>
 
@@ -179,7 +166,7 @@ const ContactPage = () => {
     );
 };
 
-const ContactItem = ({ icon: Icon, title, content, sub }) => (
+const ContactItem = ({ icon: Icon, title, content }) => (
     <div className="flex items-start gap-4">
         <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
             <Icon className="w-5 h-5 text-indigo-400" />
@@ -187,7 +174,6 @@ const ContactItem = ({ icon: Icon, title, content, sub }) => (
         <div>
             <h4 className="font-medium text-white">{title}</h4>
             <p className="text-lg text-zinc-200 font-semibold">{content}</p>
-            <p className="text-sm text-zinc-500">{sub}</p>
         </div>
     </div>
 );

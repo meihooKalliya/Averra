@@ -13,7 +13,7 @@ const FeatureComparison = () => {
         },
         {
             name: "Cost Per Meeting",
-            averra: "₹2,000",
+            averra: "₹575",
             human: "₹15,000+",
             icon: DollarSign,
             averraSub: "Predictable",
@@ -21,7 +21,7 @@ const FeatureComparison = () => {
         },
         {
             name: "Response Latency",
-            averra: "< 800ms",
+            averra: "< 0.5s",
             human: "Variable",
             icon: Clock,
             averraSub: "Instantaneous",
@@ -54,13 +54,40 @@ const FeatureComparison = () => {
                         <TrendingUp className="w-4 h-4" />
                         <span>ROI Comparison</span>
                     </motion.div>
-                    <h2 className="text-5xl md:text-7xl font-semibold text-white mb-6 clash-display tracking-tight">
-                        The Math is <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Simple</span>
-                    </h2>
-                    <p className="text-blue-100/60 text-xl font-light max-w-2xl mx-auto">
-                        Averra isn't just an upgrade — it's a structural advantage.
-                        Compare the efficiency of an autonomous agent vs. a traditional setup.
-                    </p>
+                    <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-indigo-500/20 to-transparent mb-16 max-w-5xl mx-auto shadow-2xl shadow-indigo-500/5">
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(99,102,241,0.1),transparent_50%)] rounded-3xl" />
+                        <div className="bg-[#040812]/80 backdrop-blur-xl border border-white/5 rounded-3xl p-10 md:p-16 relative overflow-hidden">
+                            <motion.p 
+                                initial={{ opacity: 0, y: 10 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.1, duration: 0.5 }}
+                                className="text-zinc-300 text-xl md:text-2xl font-light mx-auto leading-relaxed mb-8"
+                            >
+                                The most expensive thing in your sales process isn't your CRM, your stack, or your office. 
+                                <span className="text-white font-medium"> It's the hours between a lead going cold and a human picking up the phone.</span>
+                            </motion.p>
+                            
+                            <motion.p 
+                                initial={{ opacity: 0, y: 10 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.3, duration: 0.5 }}
+                                className="text-zinc-400 text-lg md:text-xl font-light mx-auto leading-relaxed mb-10"
+                            >
+                                Averra removes that gap entirely. Every conversation your team would've had — the follow-ups, the cold opens, the qualification calls — happens at a fraction of what it costs to staff for them. <span className="text-indigo-300">Not because quality is cut. Because the overhead is.</span>
+                            </motion.p>
+                            
+                            <motion.div 
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 0.5, duration: 0.5 }}
+                                className="inline-block px-8 py-5 rounded-2xl bg-indigo-500/10 border border-indigo-500/20"
+                            >
+                                <p className="text-indigo-400 text-lg font-semibold tracking-wide">
+                                    The teams using Averra aren't just moving faster. They're operating at a cost structure their competitors genuinely can't reverse-engineer with headcount alone.
+                                </p>
+                            </motion.div>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -165,12 +192,12 @@ const FeatureComparison = () => {
                     <div className="flex flex-col md:flex-row items-center justify-center gap-8">
                         <div>
                             <p className="text-indigo-400 font-mono text-sm uppercase mb-2">Total Advantage</p>
-                            <h4 className="text-4xl font-semibold text-white clash-display">12.5x ROI Increase</h4>
+                            <h4 className="text-4xl font-semibold text-white clash-display">26x More Efficient</h4>
                         </div>
                         <div className="h-12 w-px bg-white/10 hidden md:block" />
                         <div>
                             <p className="text-indigo-400 font-mono text-sm uppercase mb-2">Cost Reduction</p>
-                            <h4 className="text-4xl font-semibold text-white clash-display">85% Lower CAC</h4>
+                            <h4 className="text-4xl font-semibold text-white clash-display">96% Lower Cost</h4>
                         </div>
                     </div>
                 </motion.div>

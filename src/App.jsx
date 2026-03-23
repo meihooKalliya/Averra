@@ -12,7 +12,8 @@ import FeaturesPage from "./pages/FeaturesPage";
 import ContactPage from "./pages/ContactPage";
 import SupportLegalPage from "./pages/SupportLegalPage";
 import AboutPage from "./pages/AboutPage";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet, useLocation, Navigate } from "react-router-dom";
+import { useEffect } from "react";
 import DashboardPage from "./pages/DashboardPage";
 import LeadsPage from "./pages/dashboard/LeadsPage";
 import SettingsPage from "./pages/dashboard/SettingsPage";
@@ -21,8 +22,6 @@ import LoginPage from "./pages/auth/LoginPage";
 import SignupPage from "./pages/auth/SignupPage";
 import AuthLayout from "./layouts/AuthLayout";
 import { AuthProvider, useAuth } from "./context/AuthContext";
-import { Navigate } from "react-router-dom";
-
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
@@ -44,10 +43,60 @@ const MainLayout = () => (
   </div>
 );
 
+const TitleUpdater = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    switch (location.pathname) {
+      case "/":
+        document.title = "Averra | Autonomous AI Sales Teams";
+        break;
+      case "/about":
+        document.title = "About Us | Averra";
+        break;
+      case "/features":
+        document.title = "Platform Features | Averra";
+        break;
+      case "/pricing":
+        document.title = "Pricing | Averra";
+        break;
+      case "/testimonials":
+        document.title = "Wall of Love | Averra";
+        break;
+      case "/contact":
+        document.title = "Contact Sales | Averra";
+        break;
+      case "/blog":
+      case "/blog/archive":
+        document.title = "Blog | Averra";
+        break;
+      case "/login":
+        document.title = "Login | Averra";
+        break;
+      case "/signup":
+        document.title = "Get Started | Averra";
+        break;
+      case "/dashboard":
+        document.title = "Dashboard | Averra";
+        break;
+      default:
+        if (location.pathname.startsWith("/blog/")) {
+          document.title = "Blog Post | Averra";
+        } else {
+          document.title = "Averra | Autonomous AI Sales Teams";
+        }
+        break;
+    }
+  }, [location]);
+
+  return null;
+};
+
 const App = () => {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <TitleUpdater />
         <Routes>
           {/* Auth Routes with Morphing Layout */}
           <Route element={<AuthLayout />}>

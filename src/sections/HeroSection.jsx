@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
+import DashboardImage from "../assets/hero/dash-board.png";
 
 const HeroSection = () => {
     const { user } = useAuth();
@@ -22,10 +23,7 @@ const HeroSection = () => {
         return () => clearInterval(interval);
     }, []);
 
-    const scrollToDemo = () => {
-        const element = document.getElementById('ai-demo');
-        element?.scrollIntoView({ behavior: 'smooth' });
-    };
+
 
     return <section className="relative container mx-auto px-4 pt-40 pb-20">
         {/* Concrete Descriptor - No "AI Badge" */}
@@ -64,15 +62,6 @@ const HeroSection = () => {
                         <ArrowRight className="w-5 h-5" />
                     </button>
                 </Link>
-                <button
-                    onClick={scrollToDemo}
-                    className="group text-white text-lg clash-display bg-white/5 border border-white/10 px-10 py-5 rounded-full cursor-pointer hover:-translate-y-1 transition-all hover:bg-white/10 hover:border-white/20 flex items-center gap-3"
-                >
-                    <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <Play className="w-3 h-3 fill-current" />
-                    </div>
-                    Hear a Live Call
-                </button>
             </div>
         </div>
 
@@ -80,7 +69,7 @@ const HeroSection = () => {
         <div className="relative mx-auto max-w-6xl mt-24">
             <div className="glass rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-indigo-500/10">
                 <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/10 via-transparent to-purple-500/10 pointer-events-none"></div>
-                <img src="/src/assets/hero/dash-board.png" alt="Averra Dashboard Interface" className="w-full h-auto opacity-90" />
+                <img src={DashboardImage} alt="Averra Dashboard Interface" className="w-full h-auto opacity-90" />
             </div>
         </div>
     </section>

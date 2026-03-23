@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { GitBranch, Database, Calendar, Mail, MessageSquare, Phone } from "lucide-react";
+import FlowImage from "../../assets/features/orchestration-flow.png";
 
 /**
  * Visualizing the orchestration process
@@ -19,7 +20,7 @@ const OrchestrationFlow = () => {
                         From raw lead list to booked meeting, Averra handles the entire lifecycle without human intervention.
                     </p>
                     <div className="mt-12 relative max-w-4xl mx-auto rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
-                        <img src="/src/assets/features/orchestration-flow.png" alt="Orchestration Flow" className="w-full h-auto opacity-80" />
+                        <img src={FlowImage} alt="Orchestration Flow" className="w-full h-auto opacity-80" />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#040812] via-transparent to-transparent" />
                     </div>
                 </div>
@@ -34,7 +35,7 @@ const OrchestrationFlow = () => {
                             icon={Database}
                             step="01"
                             title="Ingestion"
-                            desc="Upload CSV or sync CRM. Averra validates numbers instantly."
+                            desc="Upload CSV, sync CRM, or let Averra's AI autonomously scrape leads."
                         />
                         {/* Step 2 */}
                         <StepCard
