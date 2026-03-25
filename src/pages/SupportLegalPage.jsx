@@ -100,8 +100,8 @@ const FAQContent = () => {
     const faqs = [
         { q: "How do I reset my password?", a: "You can reset your password by clicking 'Forgot Password' on the login screen. We'll send you an email with instructions." },
         { q: "Can I upgrade my plan at any time?", a: "Yes, you can upgrade your plan instantly from your account settings. Prorated charges will apply." },
-        { q: "Where can I find trading tutorials?", a: "Check out our 'Education' section in the Blog for comprehensive guides and video tutorials." },
-        { q: "Is my data secure?", a: "We use bank-grade 256-bit encryption to protect your personal and financial data." },
+        { q: "Where can I find sales outreach tutorials?", a: "Check out our 'Strategy' section in the Blog for comprehensive guides and playbooks." },
+        { q: "Is my data secure?", a: "We use bank-grade 256-bit encryption to protect your personal and lead data." },
         { q: "Do you offer a refund policy?", a: "We offer a 14-day money-back guarantee for all annual subscriptions." },
     ];
 
@@ -129,7 +129,7 @@ const TermsContent = () => (
             <FileText className="w-8 h-8 text-indigo-400" />
             Terms of Service
         </h2>
-        <p className="text-zinc-300 mb-6">Last updated: December 2025</p>
+        <p className="text-zinc-300 mb-6">Last updated: March 2026</p>
 
         <h3 className="text-xl font-bold text-white mt-8 mb-4">1. Acceptance of Terms</h3>
         <p className="text-zinc-400">By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement.</p>

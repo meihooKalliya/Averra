@@ -16,12 +16,12 @@ const faqs = [
         answer: "We accept all major credit cards (Visa, Mastercard, Amex), PayPal, and crypto payments (USDC, USDT, BTC, ETH) for annual plans."
     },
     {
-        question: "Is there an institutional API available?",
-        answer: "Yes, our Enterprise plan includes full read/write API access with rate limits tailored to HFT needs. Documentation is available in our developer portal."
+        question: "Is there an API available for my CRM?",
+        answer: "Yes, our Enterprise plan includes full read/write API access to sync leads, call recordings, and outcomes directly into systems like Salesforce, Hubspot, or Pipedrive."
     },
     {
-        question: "Do you offer educational discounts?",
-        answer: "Yes! Students and educators with a valid .edu email address can get 50% off the Pro annual plan. Contact support with proof of enrollment."
+        question: "Do you offer non-profit discounts?",
+        answer: "Yes! Registered non-profits and charities can get 50% off the Pro annual plan. Contact our support team for verification."
     }
 ];
 
