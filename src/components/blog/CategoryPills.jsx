@@ -26,7 +26,7 @@ const CategoryPills = ({ activeCategory, onCategoryChange }) => {
                             key={index}
                             onClick={() => onCategoryChange(category)}
                             className={`whitespace-nowrap px-8 py-4 rounded-full font-medium text-lg transition-all duration-300 relative border ${activeCategory === category
-                                ? "text-black bg-[#ccff00] border-[#ccff00]"
+                                ? "text-white bg-indigo-600 border-indigo-500 shadow-lg shadow-indigo-500/25"
                                 : "text-zinc-400 border-zinc-800 hover:border-zinc-600 hover:text-white bg-zinc-900/50"
                                 }`}
                         >
@@ -34,7 +34,7 @@ const CategoryPills = ({ activeCategory, onCategoryChange }) => {
                             {activeCategory === category && (
                                 <motion.div
                                     layoutId="activePill"
-                                    className="absolute inset-0 rounded-full bg-[#ccff00] -z-10"
+                                    className="absolute inset-0 rounded-full bg-indigo-600 -z-10"
                                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                 />
                             )}
