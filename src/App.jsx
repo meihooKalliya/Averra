@@ -2,7 +2,7 @@ import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import ChatWidget from "./components/ChatWidget";
 import HomePage from "./pages/HomePage";
-import PricingPage from "./pages/PricingPage";
+import SolutionsPage from "./pages/SolutionsPage";
 import BlogPage from "./pages/BlogPage";
 import ManageSubscription from "./pages/ManageSubscription";
 import TestimonialsPage from "./pages/TestimonialsPage";
@@ -57,8 +57,8 @@ const TitleUpdater = () => {
       case "/features":
         document.title = "Platform Features | Averra";
         break;
-      case "/pricing":
-        document.title = "Pricing | Averra";
+      case "/solutions":
+        document.title = "Solutions | Averra";
         break;
       case "/testimonials":
         document.title = "Wall of Love | Averra";
@@ -115,7 +115,7 @@ const App = () => {
           <Route element={<MainLayout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
-            <Route path="/pricing" element={<PricingPage />} />
+            <Route path="/solutions" element={<SolutionsPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/archive" element={<BlogArchivePage />} />
             <Route path="/blog/:id" element={<SingleBlogPost />} />
